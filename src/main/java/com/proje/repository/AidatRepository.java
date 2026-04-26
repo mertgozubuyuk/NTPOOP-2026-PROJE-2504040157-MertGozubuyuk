@@ -4,13 +4,14 @@ import com.proje.model.Aidat;
 import com.proje.util.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AidatRepository {
 
     //Aidat ekle metodu
     public void aidatEkle(Aidat aidat){
-        String sql = "INSERT TO aidatlar (sakin_id, miktar, ay, odendi_mi) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO  aidatlar (sakin_id, miktar, ay, odendi_mi) VALUES(?, ?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -32,7 +33,7 @@ public class AidatRepository {
     public void borcluSakinleriListele(){
 
         // Burada SQL JOIN kullanıyoruz: Aidatlar tablosu ile Sakinler tablosunu birleştirme işlemi gerçekleştiriyoruz
-        String sql = "SELECT s.ad, s.soyad, a.miktar, a.ay " +
+        String sql = "SELECT a.id, s.ad, s.soyad, a.miktar, a.ay " +
                 "FROM aidatlar a " +
                 "JOIN sakinler s ON a.sakin_id = s.id " +
                 "WHERE a.odendi_mi = false";
@@ -42,7 +43,8 @@ public class AidatRepository {
         var rs = pstmt.executeQuery()) {
             System.out.println("\n--- BORCU OLAN SAKİNLER LİSTESİ ---");
             while (rs.next()){
-                System.out.println("Sakin: " + rs.getString("ad") + " " + rs.getString("soyad") +
+                System.out.println("ID: " + rs.getInt("id")+
+                        " | Sakin: " + rs.getString("ad") + " " + rs.getString("soyad") +
                         " | Borç: " + rs.getDouble("miktar") + " TL" +
                         " | Ay:  " + rs.getString("ay"));
             }
@@ -69,6 +71,40 @@ public class AidatRepository {
         }catch (SQLException e){
             System.out.println("Ödeme işlemi sırasında hata: "+e.getMessage());
         }
+    }
+
+    //Toplu aidat ekleme metodu
+    public void topluAidatTanımlama(double miktar , String ay){
+        //Önce veritabanındaki sakinlerin idlerini alırız
+        String sakinleriGetirSql = "SELECT id FROM sakinler";
+
+        //Her bir sakin için aidat tablosuna borç kaydedecek SQL
+        String aidatEkleSql = "INSERT INTO aidatlar(sakin_id, miktar, ay, odendi_mi) VALUES(?, ?, ?, false)";
+
+        try (Connection conn = DatabaseManager.getConnection();
+        PreparedStatement sakinStmt = conn.prepareStatement(sakinleriGetirSql);
+             ResultSet rs = sakinStmt.executeQuery()){
+            int sayac = 0;
+
+            //While döngüsü ile tüm sakinleri tek tek döndürüyoruz
+            while (rs.next()){
+                int sakinId = rs.getInt("id");
+
+                //Sıradaki her sakin için bir aidat borcu oluşturuyoruz
+                try(PreparedStatement aidatStmt = conn.prepareStatement(aidatEkleSql)){
+                    aidatStmt.setInt(1, sakinId);
+                    aidatStmt.setDouble(2, miktar);
+                    aidatStmt.setString(3, ay);
+
+                    aidatStmt.executeUpdate();
+                    sayac++;
+                }
+            }
+            System.out.println("Sistem: " + sayac + " adet sakine aidat borcu başarıyla eklendi.");
+        }catch (SQLException e){
+            System.out.println("Hata oluştu: " + e.getMessage());
+        }
+
     }
 
 }
