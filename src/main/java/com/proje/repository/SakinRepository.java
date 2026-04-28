@@ -14,6 +14,18 @@ public class SakinRepository {
 
     //Sakin ekle metodu
     public void sakinEkle(Sakin sakin) {
+        //İsim ve Soyisim boş mu kontrolü
+        if(sakin.getAd().trim().isEmpty() || sakin.getSoyad().trim().isEmpty()){
+            System.out.println("HATA: Sakin adı ve soyadı boş bırakılamaz");
+            return;
+        }
+
+        //Daire no kontrolü
+        if (sakin.getDaireNo()<=0){
+            System.out.println("HATA: Geçersiz daire numarası!");
+            return;
+        }
+
         // ID kısmını boş bırakıyoruz çünkü veritabanında 'SERIAL' (otomatik artan) yaptık
         String sql = "INSERT INTO sakinler (ad, soyad, daire_no) VALUES (?, ?, ?)";
 

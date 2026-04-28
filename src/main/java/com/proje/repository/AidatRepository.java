@@ -75,6 +75,17 @@ public class AidatRepository {
 
     //Toplu aidat ekleme metodu
     public void topluAidatTanımlama(double miktar , String ay){
+        //Miktar Kontrolü
+        if(miktar<=0){
+            System.out.println("HATA: Aidat miktarı 0 veya negatif olamaz");
+            return;
+        }
+
+        if (ay == null || ay.trim().isEmpty()){
+            System.out.println("HATA: Ay bilgisi boş bırakılamaz!");
+            return;
+        }
+
         //Önce veritabanındaki sakinlerin idlerini alırız
         String sakinleriGetirSql = "SELECT id FROM sakinler";
 
