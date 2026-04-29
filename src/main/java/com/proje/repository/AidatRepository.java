@@ -118,4 +118,38 @@ public class AidatRepository {
 
     }
 
+    //Özet Raporlama Metodu
+    public void finansalOzetRaporu(){
+        //odendi_mi durumuna göre gruplayıp toplamları alan SQL
+        String sqlOdendi = "SELECT SUM(miktar) FROM aidatlar WHERE odendi_mi = true";
+        String sqlBekleyen = "SELECT SUM(miktar) FROM aidatlar WHERE odendi_mi = false";
+
+        try(Connection conn = DatabaseManager.getConnection();
+        PreparedStatement pstmt1 = conn.prepareStatement(sqlOdendi);
+        PreparedStatement pstmt2 = conn.prepareStatement(sqlBekleyen)){
+            double toplamTahsilat=0;
+            double toplamBekleyen=0;
+
+            //Tahsil edilenleri alma
+            var rs1 = pstmt1.executeQuery();
+            if (rs1.next()){
+                toplamTahsilat=rs1.getDouble(1);
+            }
+
+            //Bekleyenleri alma
+            var rs2 = pstmt2.executeQuery();
+            if(rs2.next()){
+                toplamBekleyen = rs2.getDouble(1);
+            }
+
+            System.out.println("\n-----FİNANSAL ÖZET RAPORU-----");
+            System.out.println("Tahsil Edilen Toplam : " + toplamTahsilat + " TL");
+            System.out.println("Bekleyen Toplam Alacak : " + toplamBekleyen + " TL");
+            System.out.println("Genel Toplam (Bütçe) : " + (toplamTahsilat + toplamBekleyen) + " TL");
+            System.out.println("----------------------------------");
+        }catch (SQLException e){
+            System.out.println("Rapor oluştururken hata: " + e.getMessage());
+        }
+    }
+
 }

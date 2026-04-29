@@ -20,6 +20,7 @@ public class Main {
             System.out.println("4- Toplu Aidat Tanımla (OTOMATİK)");
             System.out.println("5- Borçlu sakinleri listele");
             System.out.println("6- Aidat ödemesi yap (ID ile)");
+            System.out.println("7- Finansal Özet Raporu Göster");
             System.out.println("0- Çıkış");
             System.out.print("Seçiminiz: ");
             secim = scanner.nextInt();
@@ -70,6 +71,10 @@ public class Main {
                     System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
                     int aidatId = scanner.nextInt();
                     aidatRepo.aidatOde(aidatId);
+                    break;
+
+                case 7:
+                    aidatRepo.finansalOzetRaporu();
                     break;
 
                 case 0:
