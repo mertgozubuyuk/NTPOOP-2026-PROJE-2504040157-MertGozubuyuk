@@ -152,4 +152,37 @@ public class AidatRepository {
         }
     }
 
+    //Ödenmiş ve ödenmememiş aidat listeleme metodu
+    public void daireGecmisiListele(int daireNo){
+        String sql = "SELECT s.ad, s.soyad, a.miktar, a.ay, a.odendi_mi " +
+                     "FROM aidatlar a " +
+                     "JOIN sakinler s ON a.sakin_id = s.id " +
+                     "WHERE s.daire_no = ? " +
+                     "ORDER BY a.id DESC";
+
+        try(Connection conn = DatabaseManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1,daireNo);
+            ResultSet rs = pstmt.executeQuery();
+
+            System.out.println("\n--- DAİRE NO: " + daireNo + " HESAP DÖKÜMÜ ---");
+            boolean veriVarMi = false;
+
+            while (rs.next()){
+                veriVarMi = true;
+                String durum = rs.getBoolean("odendi_mi") ? "[ÖDENDİ]" : "[BORÇ]";
+                System.out.println(durum + "Ay: " + rs.getString("ay") +
+                        " | Tutar: " + rs.getDouble("miktar") + " TL");
+            }
+
+            if (!veriVarMi){
+                System.out.println("---Bu daire numarasına ait kayıt bulunamadı.");
+            }
+
+        }catch (SQLException e){
+            System.out.println("Sorgulama hatası: " + e.getMessage());
+        }
+    }
+
 }
