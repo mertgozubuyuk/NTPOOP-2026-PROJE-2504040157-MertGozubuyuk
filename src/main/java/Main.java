@@ -1,11 +1,14 @@
 import com.proje.model.Sakin;
 import com.proje.repository.AidatRepository;
 import com.proje.repository.SakinRepository;
+import com.proje.util.LogManager;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        LogManager.logYaz("Uygulama kullanıcı tarafından başlatıldı.");
         SakinRepository repo = new SakinRepository();
         Scanner scanner = new Scanner(System.in);
         AidatRepository aidatRepo = new AidatRepository();

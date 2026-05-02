@@ -2,6 +2,8 @@ package com.proje.repository;
 
 import com.proje.model.Aidat;
 import com.proje.util.DatabaseManager;
+import com.proje.util.LogManager;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +24,11 @@ public class AidatRepository {
             pstmt.setBoolean(4,aidat.isOdendiMi());
 
             pstmt.executeUpdate();
+            LogManager.logYaz("İŞLEM BAŞARILI: Yeni aidat kaydı sisteme işlendi.");
             System.out.println("Aidat başarıyla tamamlandı!");
         }catch (SQLException e){
             System.out.println("Aidat eklenirken hata oluştu: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
 
     }
@@ -50,6 +54,7 @@ public class AidatRepository {
             }
         }catch (SQLException e){
             System.out.println("Borçlu listesi çekilirken hata: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 
@@ -70,6 +75,7 @@ public class AidatRepository {
 
         }catch (SQLException e){
             System.out.println("Ödeme işlemi sırasında hata: "+e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 
@@ -108,12 +114,15 @@ public class AidatRepository {
                     aidatStmt.setString(3, ay);
 
                     aidatStmt.executeUpdate();
+
+
                     sayac++;
                 }
             }
             System.out.println("Sistem: " + sayac + " adet sakine aidat borcu başarıyla eklendi.");
         }catch (SQLException e){
             System.out.println("Hata oluştu: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
 
     }
@@ -149,6 +158,7 @@ public class AidatRepository {
             System.out.println("----------------------------------");
         }catch (SQLException e){
             System.out.println("Rapor oluştururken hata: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 
@@ -182,6 +192,7 @@ public class AidatRepository {
 
         }catch (SQLException e){
             System.out.println("Sorgulama hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 

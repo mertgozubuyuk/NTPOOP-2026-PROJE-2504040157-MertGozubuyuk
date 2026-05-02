@@ -2,6 +2,8 @@ package com.proje.repository;
 
 import com.proje.model.Sakin;
 import com.proje.util.DatabaseManager;
+import com.proje.util.LogManager;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,6 +44,7 @@ public class SakinRepository {
 
         } catch (SQLException e) {
             System.out.println("❌ Ekleme hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 
@@ -65,6 +68,7 @@ public class SakinRepository {
             }
         } catch (SQLException e) {
             System.out.println("Listeleme hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
         return liste;
     }
@@ -86,6 +90,7 @@ public class SakinRepository {
             }
         } catch (SQLException e) {
             System.out.println("Silme hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
 
