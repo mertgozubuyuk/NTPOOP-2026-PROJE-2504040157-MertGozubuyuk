@@ -3,6 +3,7 @@ import com.proje.repository.AidatRepository;
 import com.proje.repository.SakinRepository;
 import com.proje.util.LogManager;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,88 +18,100 @@ public class Main {
         System.out.println("--- Apartman Yönetim Sistemine Hoş Geldiniz ---");
 
         while (secim != 0) {
-            System.out.println("\n1- Sakin Ekle");
-            System.out.println("2- Sakinleri Listele");
-            System.out.println("3- Sakin Sil (ID ile)");
-            System.out.println("4- Toplu Aidat Tanımla (OTOMATİK)");
-            System.out.println("5- Borçlu sakinleri listele");
-            System.out.println("6- Aidat ödemesi yap (ID ile)");
-            System.out.println("7- Finansal Özet Raporu Göster");
-            System.out.println("8- Daire No ile Geçmiş Sorgula");
-            System.out.println("0- Çıkış");
-            System.out.print("Seçiminiz: ");
-            secim = scanner.nextInt();
-            scanner.nextLine(); // Sayıdan sonra enter karakterini temizlemek için
+            //Tüm menü işlemleri try-catch içine alarak daha güvenli sistem oluşturuyoruz
+            try {
+                System.out.println("\n1- Sakin Ekle");
+                System.out.println("2- Sakinleri Listele");
+                System.out.println("3- Sakin Sil (ID ile)");
+                System.out.println("4- Toplu Aidat Tanımla (OTOMATİK)");
+                System.out.println("5- Borçlu sakinleri listele");
+                System.out.println("6- Aidat ödemesi yap (ID ile)");
+                System.out.println("7- Finansal Özet Raporu Göster");
+                System.out.println("8- Daire No ile Geçmiş Sorgula");
+                System.out.println("0- Çıkış");
+                System.out.print("Seçiminiz: ");
 
-            switch (secim) {
-                case 1:
-                    System.out.print("Ad: ");
-                    String ad = scanner.nextLine();
-                    System.out.print("Soyad: ");
-                    String soyad = scanner.nextLine();
-                    System.out.print("Daire No: ");
-                    int daireNo = scanner.nextInt();
+                secim = scanner.nextInt();
+                scanner.nextLine(); // Sayıdan sonra enter karakterini temizlemek için
 
-                    Sakin yeniSakin = new Sakin(0, ad, soyad, daireNo);
-                    repo.sakinEkle(yeniSakin);
-                    break;
+                switch (secim) {
+                    case 1:
+                        System.out.print("Ad: ");
+                        String ad = scanner.nextLine();
+                        System.out.print("Soyad: ");
+                        String soyad = scanner.nextLine();
+                        System.out.print("Daire No: ");
+                        int daireNo = scanner.nextInt();
 
-                case 2:
-                    System.out.println("\n--- Mevcut Sakinler ---");
-                    List<Sakin> sakinler = repo.tumSakinleriGetir();
-                    for (Sakin s : sakinler) {
-                        System.out.println("ID: " + s.getId() + " | " + s.getAd() + " " + s.getSoyad() + " | Daire: " + s.getDaireNo());
-                    }
-                    break;
+                        Sakin yeniSakin = new Sakin(0, ad, soyad, daireNo);
+                        repo.sakinEkle(yeniSakin);
+                        break;
 
-                case 3:
-                    System.out.print("Silinecek Sakin ID: ");
-                    int silinecekId = scanner.nextInt();
-                    repo.sakinSil(silinecekId);
-                    break;
+                    case 2:
+                        System.out.println("\n--- Mevcut Sakinler ---");
+                        List<Sakin> sakinler = repo.tumSakinleriGetir();
+                        for (Sakin s : sakinler) {
+                            System.out.println("ID: " + s.getId() + " | " + s.getAd() + " " + s.getSoyad() + " | Daire: " + s.getDaireNo());
+                        }
+                        break;
 
-                case 4:
-                    System.out.println("Aidat Miktarı : ");
-                    double miktar = scanner.nextDouble();
-                    scanner.nextLine();
-                    System.out.println("Ay : ");
-                    String ay = scanner.nextLine();
+                    case 3:
+                        System.out.print("Silinecek Sakin ID: ");
+                        int silinecekId = scanner.nextInt();
+                        repo.sakinSil(silinecekId);
+                        break;
 
-                    aidatRepo.topluAidatTanımlama(miktar, ay);
-                    break;
+                    case 4:
+                        System.out.println("Aidat Miktarı : ");
+                        double miktar = scanner.nextDouble();
+                        scanner.nextLine();
+                        System.out.println("Ay : ");
+                        String ay = scanner.nextLine();
 
-                case 5:
-                    aidatRepo.borcluSakinleriListele();
-                    break;
+                        aidatRepo.topluAidatTanımlama(miktar, ay);
+                        break;
 
-                case 6:
-                    System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
-                    int aidatId = scanner.nextInt();
-                    aidatRepo.aidatOde(aidatId);
-                    break;
+                    case 5:
+                        aidatRepo.borcluSakinleriListele();
+                        break;
 
-                case 7:
-                    aidatRepo.finansalOzetRaporu();
-                    break;
+                    case 6:
+                        System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
+                        int aidatId = scanner.nextInt();
+                        aidatRepo.aidatOde(aidatId);
+                        break;
 
-                case 8:
-                    try {
+                    case 7:
+                        aidatRepo.finansalOzetRaporu();
+                        break;
+
+                    case 8:
                         System.out.println("Sorgulamak istediğiniz daire numarasını giriniz: ");
                         int dNo = scanner.nextInt();
                         aidatRepo.daireGecmisiListele(dNo);
-                    }catch (Exception e){
-                        System.out.println("HATA: Lütfen sadece sayısal bir daire numarası giriniz!");
-                        scanner.nextLine();//Scanner içindeki hatalı veriyi temizler
-                    }
-                    break;
+                        break;
 
-                case 0:
-                    System.out.println("Sistemden çıkılıyor...");
-                    break;
+                    case 0:
+                        System.out.println("Sistemden çıkılıyor...");
+                        break;
 
-                default:
-                    System.out.println("Geçersiz seçim!");
+                    default:
+                        System.out.println("Geçersiz seçim!");
+                }
+            } catch (InputMismatchException e) {
+                //Kullanıcı sayı beklenen yere harf girerse burası çalışacaktır
+                System.out.println("\n>>> HATA: Geçersiz giriş! Lütfen sadece sayısal değerler kullanın.");
+                LogManager.logYaz("GİRİŞ HATASI: Kullanıcı menüde veya veri girişinde harf kullandı.");
+
+                scanner.nextLine(); // ÖNEMLİ: Hatalı girişi temizleyip döngünün devam etmesini sağlar
+                secim = -1; // Döngünün başa dönmesi için seçimi sıfırlıyoruz
+            } catch (Exception e) {
+                //Öngürülemeyen tüm hatalar için
+                System.out.println("Beklenmedik bir hata oluştu: " + e.getMessage());
+                LogManager.logYaz("SİSTEM HATASI: " + e.getMessage());
+                scanner.nextLine(); //Temizlik
             }
+
         }
         scanner.close();
     }
