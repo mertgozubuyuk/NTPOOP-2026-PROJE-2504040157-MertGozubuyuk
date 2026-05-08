@@ -1,6 +1,8 @@
 import com.proje.model.Sakin;
 import com.proje.repository.AidatRepository;
 import com.proje.repository.SakinRepository;
+import com.proje.service.ISakinService;
+import com.proje.service.SakinService;
 import com.proje.util.LogManager;
 
 import java.util.InputMismatchException;
@@ -10,7 +12,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         LogManager.logYaz("Uygulama kullanıcı tarafından başlatıldı.");
-        SakinRepository repo = new SakinRepository();
+        ISakinService sakinService = new SakinService();
         Scanner scanner = new Scanner(System.in);
         AidatRepository aidatRepo = new AidatRepository();
         int secim = -1;
@@ -44,12 +46,12 @@ public class Main {
                         int daireNo = scanner.nextInt();
 
                         Sakin yeniSakin = new Sakin(0, ad, soyad, daireNo);
-                        repo.sakinEkle(yeniSakin);
+                        sakinService.sakinKaydet(yeniSakin);
                         break;
 
                     case 2:
                         System.out.println("\n--- Mevcut Sakinler ---");
-                        List<Sakin> sakinler = repo.tumSakinleriGetir();
+                        List<Sakin> sakinler = sakinService.sakinleriGetir();
                         for (Sakin s : sakinler) {
                             System.out.println("ID: " + s.getId() + " | " + s.getAd() + " " + s.getSoyad() + " | Daire: " + s.getDaireNo());
                         }
@@ -58,7 +60,7 @@ public class Main {
                     case 3:
                         System.out.print("Silinecek Sakin ID: ");
                         int silinecekId = scanner.nextInt();
-                        repo.sakinSil(silinecekId);
+                        sakinService.sakinSil(silinecekId);
                         break;
 
                     case 4:
