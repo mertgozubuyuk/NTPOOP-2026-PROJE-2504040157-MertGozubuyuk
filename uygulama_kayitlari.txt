@@ -3,3 +3,5 @@
 [2026-05-03 19:51:18] GİRİŞ HATASI: Kullanıcı menüde veya veri girişinde harf kullandı.
 [2026-05-08 21:06:37] Uygulama kullanıcı tarafından başlatıldı.
 [2026-05-08 21:07:07] Servis Katmanı: 'Mehmet' için kayıt kayıt işlemi başlatıldı.
+[2026-05-09 19:04:35] Uygulama kullanıcı tarafından başlatıldı.
+[2026-05-09 19:04:44] Finansal rapor görüntülendi.

@@ -1,10 +1,11 @@
 import com.proje.model.Sakin;
 import com.proje.repository.AidatRepository;
 import com.proje.repository.SakinRepository;
+import com.proje.service.AidatService;
+import com.proje.service.IAidatService;
 import com.proje.service.ISakinService;
 import com.proje.service.SakinService;
 import com.proje.util.LogManager;
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Main {
         LogManager.logYaz("Uygulama kullanıcı tarafından başlatıldı.");
         ISakinService sakinService = new SakinService();
         Scanner scanner = new Scanner(System.in);
-        AidatRepository aidatRepo = new AidatRepository();
+        IAidatService aidatService = new AidatService();
         int secim = -1;
 
         System.out.println("--- Apartman Yönetim Sistemine Hoş Geldiniz ---");
@@ -70,27 +71,27 @@ public class Main {
                         System.out.println("Ay : ");
                         String ay = scanner.nextLine();
 
-                        aidatRepo.topluAidatTanımlama(miktar, ay);
+                        aidatService.topluAidatOlustur(miktar, ay);
                         break;
 
                     case 5:
-                        aidatRepo.borcluSakinleriListele();
+                        aidatService.borclulariGoster();
                         break;
 
                     case 6:
                         System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
                         int aidatId = scanner.nextInt();
-                        aidatRepo.aidatOde(aidatId);
+                        aidatService.aidatTahsilEt(aidatId);
                         break;
 
                     case 7:
-                        aidatRepo.finansalOzetRaporu();
+                        aidatService.raporuHazirla();
                         break;
 
                     case 8:
                         System.out.println("Sorgulamak istediğiniz daire numarasını giriniz: ");
                         int dNo = scanner.nextInt();
-                        aidatRepo.daireGecmisiListele(dNo);
+                        aidatService.daireDokumuGetir(dNo);
                         break;
 
                     case 0:
