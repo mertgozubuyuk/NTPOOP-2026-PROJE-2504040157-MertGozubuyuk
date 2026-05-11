@@ -20,6 +20,27 @@ public class SakinService implements ISakinService {
 
     @Override
     public void sakinKaydet(Sakin sakin){
+        //Null KOntrölü(Program çökmesini engelleme)
+        if(sakin == null){
+            System.out.println("HATA: Kaydedilecek sakin bilgisi bulunamadı!");
+            return;
+        }
+
+        //İsim ve Soyad Doğrulaması
+        if(sakin.getAd() == null || sakin.getAd().trim().isEmpty() ||
+        sakin.getSoyad() == null || sakin.getSoyad().trim().isEmpty()){
+            System.out.println("HATA: Sakin adı ve soyadı boş bırakılamaz!");
+            LogManager.logYaz("HATA: Eksik isim/soyad ile kayıt denemesi yapıldı.");
+            return;
+        }
+
+        //Daire Numarası kontrolü
+        if(sakin.getDaireNo()<=0){
+            System.out.println("HATA: Daire numarası 0 veya negatif olamaz");
+            return;
+        }
+
+        //Başarılı doğrulama
         LogManager.logYaz("Servis Katmanı: '" + sakin.getAd() + "' için kayıt kayıt işlemi başlatıldı.");
         sakinRepository.sakinEkle(sakin);
     }

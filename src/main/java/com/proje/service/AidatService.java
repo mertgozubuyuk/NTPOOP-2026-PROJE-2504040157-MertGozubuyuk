@@ -16,10 +16,18 @@ public class AidatService implements IAidatService{
 
     @Override
     public void topluAidatOlustur(double miktar, String ay){
+        //Finansal mantık kontrolü
         if(miktar<=0){
             System.out.println("HATA: Aİdat miktarı 0'dan büyük olmalıdır!");
             return;
         }
+
+        //Zaman(Ay) Kontrolü
+        if(ay == null || ay.trim().isEmpty()){
+            System.out.println("HATA: Aidat dönemi (Ay bilgisi) belirtilmelidir!");
+            return;
+        }
+
         LogManager.logYaz("Toplu aidat oluşturuluyor: " + ay + " ayı için " + miktar + " TL");
         aidatRepository.topluAidatTanımlama(miktar, ay);
     }
