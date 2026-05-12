@@ -59,7 +59,7 @@ public class AidatRepository {
     }
 
     //Aidat ödeme metodu
-    public  void aidatOde(int aidatId){
+    public  void aidatOde(int aidatId, int sakinId, double miktar){
         String sql = "UPDATE aidatlar SET odendi_mi = true WHERE id = ?";
         try (Connection conn = DatabaseManager.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -68,7 +68,11 @@ public class AidatRepository {
             int etkilenenSatir = pstmt.executeUpdate();
 
             if(etkilenenSatir>0){
-                System.out.println(aidatId + " umaralı aidat başarıyla ödendi olarak işaretlendi.");
+                System.out.println(aidatId + " numaralı aidat başarıyla ödendi olarak işaretlendi.");
+
+                OdemeRepository odemeRepo = new OdemeRepository();
+                com.proje.model.Odeme yeniOdeme = new com.proje.model.Odeme(sakinId, aidatId, miktar);
+                odemeRepo.odemeKaydet(yeniOdeme);
             }else{
                 System.out.println("Hata: Bu ID ile bir aidat kaydı bulunamadı");
             }

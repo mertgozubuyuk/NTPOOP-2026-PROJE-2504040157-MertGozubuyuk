@@ -1,10 +1,7 @@
 import com.proje.model.Sakin;
 import com.proje.repository.AidatRepository;
 import com.proje.repository.SakinRepository;
-import com.proje.service.AidatService;
-import com.proje.service.IAidatService;
-import com.proje.service.ISakinService;
-import com.proje.service.SakinService;
+import com.proje.service.*;
 import com.proje.util.LogManager;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -16,6 +13,7 @@ public class Main {
         ISakinService sakinService = new SakinService();
         Scanner scanner = new Scanner(System.in);
         IAidatService aidatService = new AidatService();
+        IOdemeService odemeService = new OdemeService();
         int secim = -1;
 
         System.out.println("--- Apartman Yönetim Sistemine Hoş Geldiniz ---");
@@ -81,7 +79,14 @@ public class Main {
                     case 6:
                         System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
                         int aidatId = scanner.nextInt();
-                        aidatService.aidatTahsilEt(aidatId);
+
+                        System.out.println("Ödemeyi yapan Sakin ID'sini giriniz: ");
+                        int sakinId = scanner.nextInt();
+
+                        System.out.println("Ödenen Tutarı giriniz: ");
+                        double odemeTutari = scanner.nextDouble();
+
+                        odemeService.tahsilatGerceklestir(aidatId, sakinId, odemeTutari);
                         break;
 
                     case 7:

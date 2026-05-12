@@ -12,8 +12,6 @@ public interface IAidatService {
     //Borçlu sakinleri listeleme kuralı
     void borclulariGoster();
 
-    //Aidat ödeme kuralı
-    void aidatTahsilEt(int aidatId);
 
     //Finansal rapor kuralı
     void raporuHazirla();

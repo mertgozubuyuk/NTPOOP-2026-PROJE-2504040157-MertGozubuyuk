@@ -37,15 +37,6 @@ public class AidatService implements IAidatService{
         aidatRepository.borcluSakinleriListele();
     }
 
-    @Override
-    public void aidatTahsilEt(int aidatId){
-        if(aidatId<=0){
-            System.out.println("HATA: Geçersiz Aidat ID!");
-            return;
-        }
-        LogManager.logYaz("Aidat ödeme ile ilgili işlem başlatıldı. Aidat ID: " + aidatId);
-        aidatRepository.aidatOde(aidatId);
-    }
 
     @Override
     public void raporuHazirla(){
