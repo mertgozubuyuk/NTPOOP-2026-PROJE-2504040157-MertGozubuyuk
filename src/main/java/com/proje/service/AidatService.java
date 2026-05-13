@@ -52,4 +52,10 @@ public class AidatService implements IAidatService{
         }
         aidatRepository.daireGecmisiListele(daireNo);
     }
+
+    @Override
+    public void tahsilatGecmisiGetir() {
+        LogManager.logYaz("Tahsilat geçmişi raporu oluşturuldu.");
+        aidatRepository.tahsilatGecmisiListele();
+    }
 }

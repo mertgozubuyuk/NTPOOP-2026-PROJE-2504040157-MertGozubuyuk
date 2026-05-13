@@ -29,6 +29,7 @@ public class Main {
                 System.out.println("6- Aidat ödemesi yap (ID ile)");
                 System.out.println("7- Finansal Özet Raporu Göster");
                 System.out.println("8- Daire No ile Geçmiş Sorgula");
+                System.out.println("9- Tüm Tahsilat Geçmişini Gör");
                 System.out.println("0- Çıkış");
                 System.out.print("Seçiminiz: ");
 
@@ -97,6 +98,10 @@ public class Main {
                         System.out.println("Sorgulamak istediğiniz daire numarasını giriniz: ");
                         int dNo = scanner.nextInt();
                         aidatService.daireDokumuGetir(dNo);
+                        break;
+
+                    case 9:
+                        aidatService.tahsilatGecmisiGetir();
                         break;
 
                     case 0:

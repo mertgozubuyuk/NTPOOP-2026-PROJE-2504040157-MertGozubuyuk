@@ -5,3 +5,23 @@
 [2026-05-08 21:07:07] Servis Katmanı: 'Mehmet' için kayıt kayıt işlemi başlatıldı.
 [2026-05-09 19:04:35] Uygulama kullanıcı tarafından başlatıldı.
 [2026-05-09 19:04:44] Finansal rapor görüntülendi.
+[2026-05-12 10:40:07] Uygulama kullanıcı tarafından başlatıldı.
+[2026-05-12 10:40:26] VERİTABANI: Ödemeler tablosuna yeni kayıt eklendi. Aidat Id: 1
+[2026-05-12 10:40:26] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 1
+[2026-05-12 10:43:02] Servis Katmanı: 'Berk' için kayıt kayıt işlemi başlatıldı.
+[2026-05-12 10:43:40] Toplu aidat oluşturuluyor: Haziran ayı için 500.0 TL
+[2026-05-12 10:46:19] KRİTİK HATA (OdemeRepo): ERROR: insert or update on table "odemeler" violates foreign key constraint "odemeler_sakin_id_fkey"
+  Ayrıntı: Key (sakin_id)=(5) is not present in table "sakinler".
+[2026-05-12 10:46:19] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 5
+[2026-05-12 10:48:22] KRİTİK HATA (OdemeRepo): ERROR: insert or update on table "odemeler" violates foreign key constraint "odemeler_sakin_id_fkey"
+  Ayrıntı: Key (sakin_id)=(5) is not present in table "sakinler".
+[2026-05-12 10:48:22] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 4
+[2026-05-12 10:51:53] VERİTABANI: Ödemeler tablosuna yeni kayıt eklendi. Aidat Id: 3
+[2026-05-12 10:51:53] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 3
+[2026-05-13 09:42:47] Uygulama kullanıcı tarafından başlatıldı.
+[2026-05-13 09:43:26] Finansal rapor görüntülendi.
+[2026-05-13 10:13:44] Uygulama kullanıcı tarafından başlatıldı.
+[2026-05-13 10:13:50] Tahsilat geçmişi raporu oluşturuldu.
+[2026-05-13 10:15:30] VERİTABANI: Ödemeler tablosuna yeni kayıt eklendi. Aidat Id: 2
+[2026-05-13 10:15:30] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 2
+[2026-05-13 10:15:35] Tahsilat geçmişi raporu oluşturuldu.

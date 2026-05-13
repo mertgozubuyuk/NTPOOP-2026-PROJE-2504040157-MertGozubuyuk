@@ -4,10 +4,7 @@ import com.proje.model.Aidat;
 import com.proje.util.DatabaseManager;
 import com.proje.util.LogManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class AidatRepository {
 
@@ -196,6 +193,32 @@ public class AidatRepository {
 
         }catch (SQLException e){
             System.out.println("Sorgulama hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
+        }
+    }
+
+    public void tahsilatGecmisiListele() {
+        // 3 tabloyu JOIN ile birbirine bağlıyoruz
+        String sql = "SELECT o.id, s.ad, s.soyad, a.ay, o.tutar, o.odeme_tarihi " +
+                "FROM odemeler o " +
+                "JOIN sakinler s ON o.sakin_id = s.id " +
+                "JOIN aidatlar a ON o.aidat_id = a.id " +
+                "ORDER BY o.odeme_tarihi DESC"; // En son ödemeyi en üstte gösterir
+
+        try (Connection conn = DatabaseManager.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            System.out.println("\n--- TÜM TAHSİLAT GEÇMİŞİ ---");
+            while (rs.next()) {
+                System.out.println("Makbuz No: " + rs.getInt("id") +
+                        " | Sakin: " + rs.getString("ad") + " " + rs.getString("soyad") +
+                        " | Aidat Dönemi: " + rs.getString("ay") +
+                        " | Tutar: " + rs.getDouble("tutar") + " TL" +
+                        " | Tarih: " + rs.getTimestamp("odeme_tarihi"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Tahsilat geçmişi çekilirken hata: " + e.getMessage());
             LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }

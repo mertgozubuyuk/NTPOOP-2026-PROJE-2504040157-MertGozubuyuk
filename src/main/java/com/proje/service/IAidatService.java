@@ -18,4 +18,7 @@ public interface IAidatService {
 
     //Daire geçmişi sorgulama kuralı
     void daireDokumuGetir(int daireNo);
+
+    //Tahsilat geçmiş kuralı
+    void tahsilatGecmisiGetir();
 }
