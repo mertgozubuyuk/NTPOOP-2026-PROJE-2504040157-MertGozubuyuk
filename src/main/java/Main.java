@@ -14,6 +14,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         IAidatService aidatService = new AidatService();
         IOdemeService odemeService = new OdemeService();
+        ExportService exportService = new ExportService();
         int secim = -1;
 
         System.out.println("--- Apartman Yönetim Sistemine Hoş Geldiniz ---");
@@ -30,6 +31,8 @@ public class Main {
                 System.out.println("7- Finansal Özet Raporu Göster");
                 System.out.println("8- Daire No ile Geçmiş Sorgula");
                 System.out.println("9- Tüm Tahsilat Geçmişini Gör");
+                System.out.println("10- Sakin Listesini CSV Yap");
+                System.out.println("11- Ödeme Raporunu CSV Yap");
                 System.out.println("0- Çıkış");
                 System.out.print("Seçiminiz: ");
 
@@ -103,6 +106,13 @@ public class Main {
                     case 9:
                         aidatService.tahsilatGecmisiGetir();
                         break;
+
+                    case 10:
+                        exportService.sakinleriCsvYap();
+                        break;
+
+                    case 11:
+                        exportService.odemeleriCsvYap();
 
                     case 0:
                         System.out.println("Sistemden çıkılıyor...");

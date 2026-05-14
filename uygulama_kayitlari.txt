@@ -25,3 +25,5 @@
 [2026-05-13 10:15:30] VERİTABANI: Ödemeler tablosuna yeni kayıt eklendi. Aidat Id: 2
 [2026-05-13 10:15:30] Tahsilat işlemi Service katmanında tamamlandı. Aidat ID: 2
 [2026-05-13 10:15:35] Tahsilat geçmişi raporu oluşturuldu.
+[2026-05-14 20:20:14] Uygulama kullanıcı tarafından başlatıldı.
+[2026-05-14 20:20:50] Uygulama kullanıcı tarafından başlatıldı.
