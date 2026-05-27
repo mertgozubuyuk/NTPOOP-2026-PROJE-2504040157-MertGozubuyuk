@@ -16,4 +16,9 @@ public class Sakin extends User {
     public void setDaireNo(int daireNo) {
         this.daireNo = daireNo;
     }
+
+    // JavaFX'in ad ve soyadı tek bir sütunda birleştirip basabilmesi için kullanılan metot
+    public String getAdSoyad() {
+        return getAd() + " " + getSoyad();
+    }
 }

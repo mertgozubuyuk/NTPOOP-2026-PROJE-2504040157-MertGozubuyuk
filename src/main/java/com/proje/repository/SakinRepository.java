@@ -94,4 +94,36 @@ public class SakinRepository {
         }
     }
 
+    // Sakin güncelleme metodu
+    public void sakinGuncelle(Sakin sakin) {
+        // ID kontrolü (Gelen nesnenin veritabanında bir karşılığı olmalı)
+        if (sakin.getId() <= 0) {
+            System.out.println("❌ Hata: Geçersiz ID ile güncelleme yapılamaz!");
+            return;
+        }
+
+        String sql = "UPDATE sakinler SET ad = ?, soyad = ?, daire_no = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, sakin.getAd());
+            pstmt.setString(2, sakin.getSoyad());
+            pstmt.setInt(3, sakin.getDaireNo());
+            pstmt.setInt(4, sakin.getId()); // Hangi ID'ye sahip satır değişecek?
+
+            int etkilenenSatir = pstmt.executeUpdate();
+
+            if (etkilenenSatir > 0) {
+                System.out.println("✅ ID: " + sakin.getId() + " olan sakin bilgileri veritabanında güncellendi.");
+            } else {
+                System.out.println("❓ Güncellenecek kayıt bulunamadı.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Güncelleme hatası: " + e.getMessage());
+            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
+        }
+    }
+
 }

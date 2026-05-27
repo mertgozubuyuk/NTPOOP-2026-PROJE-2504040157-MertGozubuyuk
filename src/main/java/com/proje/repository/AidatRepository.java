@@ -1,10 +1,13 @@
 package com.proje.repository;
 
 import com.proje.model.Aidat;
+import com.proje.model.Borclu;
 import com.proje.util.DatabaseManager;
 import com.proje.util.LogManager;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AidatRepository {
 
@@ -30,29 +33,31 @@ public class AidatRepository {
 
     }
 
-    //Borçlu sakinleri listeleme metodu
-    public void borcluSakinleriListele(){
-
-        // Burada SQL JOIN kullanıyoruz: Aidatlar tablosu ile Sakinler tablosunu birleştirme işlemi gerçekleştiriyoruz
-        String sql = "SELECT a.id, s.ad, s.soyad, a.miktar, a.ay " +
+    //Borçlu listesini getiren metot
+    public List<Borclu> borcluListesiniGetir() {
+        List<Borclu> liste = new ArrayList<>();
+        String sql = "SELECT a.id, a.sakin_id, s.ad, s.soyad, a.miktar, a.ay " +
                 "FROM aidatlar a " +
                 "JOIN sakinler s ON a.sakin_id = s.id " +
                 "WHERE a.odendi_mi = false";
 
         try (Connection conn = DatabaseManager.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        var rs = pstmt.executeQuery()) {
-            System.out.println("\n--- BORCU OLAN SAKİNLER LİSTESİ ---");
-            while (rs.next()){
-                System.out.println("ID: " + rs.getInt("id")+
-                        " | Sakin: " + rs.getString("ad") + " " + rs.getString("soyad") +
-                        " | Borç: " + rs.getDouble("miktar") + " TL" +
-                        " | Ay:  " + rs.getString("ay"));
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                liste.add(new Borclu(
+                        rs.getInt("id"),
+                        rs.getInt("sakin_id"),  // yeni eklendi
+                        rs.getString("ad") + " " + rs.getString("soyad"),
+                        rs.getDouble("miktar"),
+                        rs.getString("ay")
+                ));
             }
-        }catch (SQLException e){
-            System.out.println("Borçlu listesi çekilirken hata: " + e.getMessage());
-            LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
+        } catch (SQLException e) {
+            LogManager.logYaz("HATA: Borçlu listesi tabloya çekilemedi.");
         }
+        return liste;
     }
 
     //Aidat ödeme metodu
@@ -222,5 +227,4 @@ public class AidatRepository {
             LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
-
 }
