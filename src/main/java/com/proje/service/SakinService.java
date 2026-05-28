@@ -59,4 +59,29 @@ public class SakinService implements ISakinService {
         }
         sakinRepository.sakinSil(id);
     }
+
+    @Override
+    public void sakinGuncelle(Sakin sakin) {
+        // Null Kontrolü
+        if (sakin == null) {
+            System.out.println("HATA: Güncellenecek sakin bilgisi bulunamadı!");
+            return;
+        }
+
+        // İsim ve Soyad Doğrulaması
+        if (sakin.getAd() == null || sakin.getAd().trim().isEmpty() ||
+                sakin.getSoyad() == null || sakin.getSoyad().trim().isEmpty()) {
+            System.out.println("HATA: Sakin adı ve soyadı boş bırakılamaz!");
+            return;
+        }
+
+        // Daire Numarası kontrolü
+        if (sakin.getDaireNo() <= 0) {
+            System.out.println("HATA: Daire numarası 0 veya negatif olamaz!");
+            return;
+        }
+
+        LogManager.logYaz("Servis Katmanı: ID " + sakin.getId() + " için güncelleme işlemi başlatıldı.");
+        sakinRepository.sakinGuncelle(sakin);
+    }
 }

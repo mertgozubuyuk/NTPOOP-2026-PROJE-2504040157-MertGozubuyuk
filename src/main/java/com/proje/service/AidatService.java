@@ -34,7 +34,7 @@ public class AidatService implements IAidatService{
 
     @Override
     public void borclulariGoster(){
-        aidatRepository.borcluSakinleriListele();
+        aidatRepository.borcluListesiniGetir();
     }
 
 

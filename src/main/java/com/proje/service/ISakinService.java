@@ -16,6 +16,9 @@ public interface  ISakinService {
     //Tüm sakinleri listelemek için kullanılacak kural;
     List<Sakin> sakinleriGetir();
 
-    //ID üzerinden sakin silmel için kullanılacak kural
+    //ID üzerinden sakin silmek için kullanılacak kural
     void sakinSil(int id);
+
+    //Sakin güncelleme kuralı
+    void sakinGuncelle(Sakin sakin);
 }
