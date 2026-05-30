@@ -43,7 +43,12 @@ public class SakinRepository {
             System.out.println("✅ " + sakin.getAd() + " isimli sakin başarıyla eklendi.");
 
         } catch (SQLException e) {
-            System.out.println("❌ Ekleme hatası: " + e.getMessage());
+            // Daire numarası zaten kullanımda mı kontrolü
+            if (e.getMessage().contains("unique_daire_no")) {
+                System.out.println("❌ Bu daire numarası zaten kayıtlı! Farklı bir daire numarası girin.");
+            } else {
+                System.out.println("❌ Ekleme hatası: " + e.getMessage());
+            }
             LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
