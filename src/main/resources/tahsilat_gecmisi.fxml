@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proje.controller.TahsilatGecmisiController">
+   <children>
+      <TableView fx:id="tahsilatTablosu" layoutX="26.0" layoutY="26.0" prefHeight="450.0" prefWidth="700.0">
+        <columns>
+            <TableColumn fx:id="colMakbuz" prefWidth="100.0" text="Makbuz No" />
+          <TableColumn fx:id="colSakin" prefWidth="180.0" text="Sakin" />
+          <TableColumn fx:id="colDonem" prefWidth="120.0" text="Dönem" />
+            <TableColumn fx:id="colTutar" prefWidth="120.0" text="Tutar" />
+            <TableColumn fx:id="colTarih" prefWidth="180.0" text="Tarih" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
