@@ -1,141 +1,33 @@
-import com.proje.model.Sakin;
-import com.proje.repository.AidatRepository;
-import com.proje.repository.SakinRepository;
-import com.proje.service.*;
-import com.proje.util.LogManager;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
-        LogManager.logYaz("Uygulama kullanıcı tarafından başlatıldı.");
-        ISakinService sakinService = new SakinService();
-        Scanner scanner = new Scanner(System.in);
-        IAidatService aidatService = new AidatService();
-        IOdemeService odemeService = new OdemeService();
-        ExportService exportService = new ExportService();
-        int secim = -1;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
 
-        System.out.println("--- Apartman Yönetim Sistemine Hoş Geldiniz ---");
+public class Main extends Application {
 
-        while (secim != 0) {
-            //Tüm menü işlemleri try-catch içine alarak daha güvenli sistem oluşturuyoruz
-            try {
-                System.out.println("\n1- Sakin Ekle");
-                System.out.println("2- Sakinleri Listele");
-                System.out.println("3- Sakin Sil (ID ile)");
-                System.out.println("4- Toplu Aidat Tanımla (OTOMATİK)");
-                System.out.println("5- Borçlu sakinleri listele");
-                System.out.println("6- Aidat ödemesi yap (ID ile)");
-                System.out.println("7- Finansal Özet Raporu Göster");
-                System.out.println("8- Daire No ile Geçmiş Sorgula");
-                System.out.println("9- Tüm Tahsilat Geçmişini Gör");
-                System.out.println("10- Sakin Listesini CSV Yap");
-                System.out.println("11- Ödeme Raporunu CSV Yap");
-                System.out.println("0- Çıkış");
-                System.out.print("Seçiminiz: ");
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            // resources klasörünün altındaki ana_ekran.fxml dosyasını yüklüyoruz
+            Parent root = FXMLLoader.load(getClass().getResource("/ana_ekran.fxml"));
 
-                secim = scanner.nextInt();
-                scanner.nextLine(); // Sayıdan sonra enter karakterini temizlemek için
+            // Pencere başlığı ve boyutu
+            primaryStage.setTitle("Apartman Yönetim Sistemi v1.0");
+            primaryStage.setScene(new Scene(root, 600, 400));
 
-                switch (secim) {
-                    case 1:
-                        System.out.print("Ad: ");
-                        String ad = scanner.nextLine();
-                        System.out.print("Soyad: ");
-                        String soyad = scanner.nextLine();
-                        System.out.print("Daire No: ");
-                        int daireNo = scanner.nextInt();
-
-                        Sakin yeniSakin = new Sakin(0, ad, soyad, daireNo);
-                        sakinService.sakinKaydet(yeniSakin);
-                        break;
-
-                    case 2:
-                        System.out.println("\n--- Mevcut Sakinler ---");
-                        List<Sakin> sakinler = sakinService.sakinleriGetir();
-                        for (Sakin s : sakinler) {
-                            System.out.println("ID: " + s.getId() + " | " + s.getAd() + " " + s.getSoyad() + " | Daire: " + s.getDaireNo());
-                        }
-                        break;
-
-                    case 3:
-                        System.out.print("Silinecek Sakin ID: ");
-                        int silinecekId = scanner.nextInt();
-                        sakinService.sakinSil(silinecekId);
-                        break;
-
-                    case 4:
-                        System.out.println("Aidat Miktarı : ");
-                        double miktar = scanner.nextDouble();
-                        scanner.nextLine();
-                        System.out.println("Ay : ");
-                        String ay = scanner.nextLine();
-
-                        aidatService.topluAidatOlustur(miktar, ay);
-                        break;
-
-                    case 5:
-                        aidatService.borclulariGoster();
-                        break;
-
-                    case 6:
-                        System.out.print("Ödemesi yapılan Aidat ID'sini giriniz: ");
-                        int aidatId = scanner.nextInt();
-
-                        System.out.println("Ödemeyi yapan Sakin ID'sini giriniz: ");
-                        int sakinId = scanner.nextInt();
-
-                        System.out.println("Ödenen Tutarı giriniz: ");
-                        double odemeTutari = scanner.nextDouble();
-
-                        odemeService.tahsilatGerceklestir(aidatId, sakinId, odemeTutari);
-                        break;
-
-                    case 7:
-                        aidatService.raporuHazirla();
-                        break;
-
-                    case 8:
-                        System.out.println("Sorgulamak istediğiniz daire numarasını giriniz: ");
-                        int dNo = scanner.nextInt();
-                        aidatService.daireDokumuGetir(dNo);
-                        break;
-
-                    case 9:
-                        aidatService.tahsilatGecmisiGetir();
-                        break;
-
-                    case 10:
-                        exportService.sakinleriCsvYap();
-                        break;
-
-                    case 11:
-                        exportService.odemeleriCsvYap();
-
-                    case 0:
-                        System.out.println("Sistemden çıkılıyor...");
-                        break;
-
-                    default:
-                        System.out.println("Geçersiz seçim!");
-                }
-            } catch (InputMismatchException e) {
-                //Kullanıcı sayı beklenen yere harf girerse burası çalışacaktır
-                System.out.println("\n>>> HATA: Geçersiz giriş! Lütfen sadece sayısal değerler kullanın.");
-                LogManager.logYaz("GİRİŞ HATASI: Kullanıcı menüde veya veri girişinde harf kullandı.");
-
-                scanner.nextLine(); // ÖNEMLİ: Hatalı girişi temizleyip döngünün devam etmesini sağlar
-                secim = -1; // Döngünün başa dönmesi için seçimi sıfırlıyoruz
-            } catch (Exception e) {
-                //Öngürülemeyen tüm hatalar için
-                System.out.println("Beklenmedik bir hata oluştu: " + e.getMessage());
-                LogManager.logYaz("SİSTEM HATASI: " + e.getMessage());
-                scanner.nextLine(); //Temizlik
-            }
-
+            // Pencereyi ekranda göster
+            primaryStage.show();
+        } catch (IOException e) {
+            System.out.println("FXML dosyası yüklenirken bir hata oluştu!");
+            e.printStackTrace();
         }
-        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        // JavaFX uygulamasını başlatan komut
+        launch(args);
     }
 }
