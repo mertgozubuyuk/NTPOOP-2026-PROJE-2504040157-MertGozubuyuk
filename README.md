@@ -75,6 +75,15 @@ IntelliJ IDEA üzerinden `Launcher.java` sınıfını çalıştırın.
 - Sakin listesi CSV
 - Ödeme raporu CSV
 
+### Giriş Sistemi
+- Admin girişi → Yönetim paneline yönlendirir
+- Sakin girişi → Kendi aidat ekranına yönlendirir
+
+| Kullanıcı | Şifre | Rol |
+|---|---|---|
+| admin | 1234 | Admin |
+| daire1 | 1234 | Sakin |
+
 ---
 
 ## ER Diyagramı
@@ -111,5 +120,6 @@ odemeler
 ## Bilinen Sorunlar / Gelecek Geliştirmeler
 
 - Veritabanı bağlantı bilgileri şu an kod içinde sabit; `.env` veya `db.properties` dosyasına taşınabilir
-- Kullanıcı girişi (login) ekranı eklenebilir
 - Aidat gecikmesi için otomatik hatırlatma sistemi geliştirilebilir
+- E-posta bilgilendirme sistemi eklenebilir.
+- Şuan için tüm sakinler aynı şifre ile giriş yapmakta bunun için telefon numarasına gelen şifre ile giriş yapma seçeneği oluşturulabilir.

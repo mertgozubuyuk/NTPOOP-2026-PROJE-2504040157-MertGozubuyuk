@@ -125,6 +125,12 @@ private IAidatService aidatService = new AidatService();
 ### Tek Aidat Ekleme
 TekAidatEkleController.handleAidatEkle() → ComboBox'tan sakin seçilir
 → AidatRepository.aidatEkle() → SQL INSERT
+
+### Sakin Girişi ve Rol Yönetimi
+AnaEkranController.handleGirisYap() → kullanicilar tablosunda
+kullanici_adi ve sifre kontrolü → rol "admin" ise yönetim paneli,
+rol "sakin" ise sakin paneli açılır → SakinPaneliController.sakinIdAta()
+ile sakin ID aktarılır
 ---
 
 ## 7. Test Senaryoları
