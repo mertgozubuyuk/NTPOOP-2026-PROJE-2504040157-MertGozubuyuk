@@ -2,20 +2,24 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2c3e50;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proje.controller.AnaEkranController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2c3e50;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proje.controller.AnaEkranController">
     <children>
         <Label layoutX="136.0" layoutY="54.0" text="Apartman Yönetim Sistemi" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <Button layoutX="233.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleGirisYap" prefHeight="40.0" prefWidth="146.0" style="-fx-background-color: #2ecc71;" text="Sisteme Giriş Yap" textFill="WHITE">
+        <Button layoutX="197.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleGirisYap" prefHeight="40.0" prefWidth="146.0" style="-fx-background-color: #2ecc71;" text="Sisteme Giriş Yap" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
+      <TextField fx:id="txtKullaniciAdi" layoutX="196.0" layoutY="135.0" promptText="Kullanıcı Adı" />
+      <PasswordField fx:id="txtSifre" layoutX="196.0" layoutY="200.0" promptText="Şifre" />
     </children>
 </AnchorPane>
