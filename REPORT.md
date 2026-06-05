@@ -99,13 +99,13 @@ private IAidatService aidatService = new AidatService();
 **sakinler** — Apartman sakinlerinin kişisel bilgileri  
 **aidatlar** — Sakinlere tanımlanan aylık borç kayıtları  
 **odemeler** — Gerçekleştirilen ödeme işlemlerinin makbuz tablosu  
-
+**kullanicilar** - kullanicilar — Sisteme giriş yapacak olan admin ve sakinlerin hesap ve yetki bilgileri
 ### İlişkiler
 - `sakinler` → `aidatlar` : 1-N ilişkisi (bir sakin, birden fazla aidatı olabilir)
 - `sakinler` → `odemeler` : 1-N ilişkisi
 - `aidatlar` → `odemeler` : 1-1 ilişkisi (bir aidat ödenince bir ödeme kaydı oluşur)
 - `ON DELETE CASCADE` ile bir sakin silindiğinde ilişkili tüm kayıtlar otomatik temizlenir
-
+- `sakinler `→ `kullanicilar` : 1-1 (Sistemdeki her sakinin sadece tek bir giriş hesabı (kullanıcı adı/şifre) olabilir.)
 ---
 
 ## 6. CRUD Akışları

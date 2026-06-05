@@ -108,13 +108,20 @@ odemeler
 ├── aidat_id (FK → aidatlar.id)
 ├── tutar (DECIMAL)
 └── odeme_tarihi (TIMESTAMP)
+
+kullanicilar 
+├── id (PK, SERIAL)
+├── kullanici_adi (VARCHAR, UNIQUE)
+├── sifre (VARCHAR)
+├── rol (VARCHAR)
+└── sakin_id (FK → sakinler.id, NULLABLE)
 ```
 
 **İlişkiler:**
 - `sakinler` → `aidatlar` : 1-N (bir sakin, birden fazla aidatı olabilir)
 - `sakinler` → `odemeler` : 1-N (bir sakin, birden fazla ödeme yapabilir)
 - `aidatlar` → `odemeler` : 1-1 (bir aidat, bir ödemeye karşılık gelir)
-
+- `sakinler `→ `kullanicilar` : 1-1 (Sistemdeki her sakinin sadece tek bir giriş hesabı (kullanıcı adı/şifre) olabilir.)
 ---
 
 ## Bilinen Sorunlar / Gelecek Geliştirmeler
