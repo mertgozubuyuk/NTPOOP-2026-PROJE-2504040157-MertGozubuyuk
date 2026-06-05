@@ -16,39 +16,45 @@ public class SakinRepository {
 
     //Sakin ekle metodu
     public void sakinEkle(Sakin sakin) {
-        //İsim ve Soyisim boş mu kontrolü
         if(sakin.getAd().trim().isEmpty() || sakin.getSoyad().trim().isEmpty()){
             System.out.println("HATA: Sakin adı ve soyadı boş bırakılamaz");
             return;
         }
-
-        //Daire no kontrolü
         if (sakin.getDaireNo()<=0){
             System.out.println("HATA: Geçersiz daire numarası!");
             return;
         }
 
-        // ID kısmını boş bırakıyoruz çünkü veritabanında 'SERIAL' (otomatik artan) yaptık
         String sql = "INSERT INTO sakinler (ad, soyad, daire_no) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            // Soru işaretlerini sakin nesnesinden gelen verilerle dolduruyoruz
             pstmt.setString(1, sakin.getAd());
             pstmt.setString(2, sakin.getSoyad());
             pstmt.setInt(3, sakin.getDaireNo());
+            pstmt.executeUpdate();
 
-            pstmt.executeUpdate(); // Sorguyu çalıştır ve kaydet
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int yeniSakinId = rs.getInt(1);
+
+                // Kullanicilar tablosuna otomatik ekle
+                String kullaniciSql = "INSERT INTO kullanicilar (kullanici_adi, sifre, rol, sakin_id) " +
+                        "VALUES (?, '1234', 'sakin', ?)";
+                try (PreparedStatement kPstmt = conn.prepareStatement(kullaniciSql)) {
+
+                    kPstmt.setString(1, "daire" + sakin.getDaireNo());
+                    kPstmt.setInt(2, yeniSakinId);
+                    kPstmt.executeUpdate();
+                    System.out.println("Kullanıcı hesabı otomatik oluşturuldu: daire" + sakin.getDaireNo());
+                }
+            }
+
             System.out.println("✅ " + sakin.getAd() + " isimli sakin başarıyla eklendi.");
 
         } catch (SQLException e) {
-            // Daire numarası zaten kullanımda mı kontrolü
-            if (e.getMessage().contains("unique_daire_no")) {
-                System.out.println("❌ Bu daire numarası zaten kayıtlı! Farklı bir daire numarası girin.");
-            } else {
-                System.out.println("❌ Ekleme hatası: " + e.getMessage());
-            }
+            System.out.println("❌ Ekleme hatası: " + e.getMessage());
             LogManager.logYaz("KRİTİK HATA: " + e.getMessage());
         }
     }
